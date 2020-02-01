@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class Plant : MonoBehaviour
+public class Plant : MonoBehaviour, IDamagable
 {
     SpriteRenderer spriteRenderer;
     int displayedFoliage;
     public float growth;
-    float growthRate = 3.00f;
+    float growthRate = 10.00f;
     public float age;
     public float maxAge;
     float scale = 2;
     float nearDistance = 3;
     float maxNearPlants = 3;
     float spawnTimer = 20;
-
+    float maxPlantFood;
+    Coroutine growCoroutine;
+    Coroutine spawnCoroutine;
     int NearPlants;
 
     void Start()
@@ -34,27 +36,29 @@ public class Plant : MonoBehaviour
         growth = .1f;
         age = 0f;
         maxAge = Random.Range(100, 300);
-        StartCoroutine(Grow());
+        maxPlantFood = 10;
+
+        growCoroutine = StartCoroutine(Grow(1));
         StartCoroutine(Lifetime());
     }
 
-
-    private IEnumerator Grow()
+    private IEnumerator Grow(float modifier)
     {
         while (growth < 1)
         {
-            growth += (Time.deltaTime / growthRate);
+            growth += (Time.deltaTime / (growthRate * modifier));
             UpdateScale();
             yield return null;
         }
-        StartCoroutine(Spawn());
+
+        // Plant "matures" after finishing growing
+        float wait = Random.Range(spawnTimer * .5f, spawnTimer*1.5f);
+        yield return new WaitForSeconds(wait);
+        spawnCoroutine = StartCoroutine(Spawn());
     }
 
     private IEnumerator Spawn()
     {
-        float wait = Random.Range(spawnTimer * .3f, spawnTimer);
-        yield return new WaitForSeconds(wait);
-
         while (true)
         {
             if (!IsCrowded())
@@ -69,7 +73,6 @@ public class Plant : MonoBehaviour
         }
     }
 
-
     private IEnumerator Lifetime()
     {
         while (age < maxAge)
@@ -78,12 +81,11 @@ public class Plant : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
 
-        StartCoroutine(Die());
+        StartCoroutine(Die(1));
     }
 
-    private IEnumerator Die()
+    private IEnumerator Die(float dieTime)
     {
-        float dieTime = 1f;
         float dieSpeed = 1.5f;
         Color deathColor = new Color(.9f, .85f, .85f);
         Color defaultColor = spriteRenderer.color;
@@ -98,6 +100,24 @@ public class Plant : MonoBehaviour
         }
 
         Kill();
+    }
+
+    private float Eaten()
+    {
+        float food = growth * maxPlantFood;
+        growth -= .15f;
+
+        if (growCoroutine != null) { StopCoroutine(growCoroutine); }
+        if (spawnCoroutine != null) { StopCoroutine(spawnCoroutine); }
+
+        if (growth < .1)
+        {
+            StartCoroutine(Die(growth));
+            return food;
+        }
+
+        growCoroutine = StartCoroutine(Grow(5));
+        return food;
     }
 
     private void UpdateScale()
@@ -160,5 +180,15 @@ public class Plant : MonoBehaviour
     private void Kill()
     {
         Destroy(this.gameObject);
+    }
+
+
+    public void TakeHit(float damage, IEats eater)
+    {
+        float food = Eaten();
+        if (eater != null)
+        {
+            eater.GetFood(food);
+        }
     }
 }
