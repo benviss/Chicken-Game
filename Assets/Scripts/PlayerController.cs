@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     public void FixedUpdate()
     {
+        transform.LookAt(rigidBody.position + velocity);
         rigidBody.MovePosition(rigidBody.position + velocity * Time.fixedDeltaTime);
     }
 }
