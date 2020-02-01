@@ -6,7 +6,7 @@ public class PlantManager : MonoBehaviour
 {
     private static PlantManager _instance;
     public static PlantManager Instance { get { return _instance; } }
-
+    public GameObject plantPrefab;
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -23,21 +23,33 @@ public class PlantManager : MonoBehaviour
     {
         get
         {
-            return Plants.Count < maxPlants;
+            return _canSpawn;
         }
     }
 
     public Sprite[] Sprites;
-    public List<GameObject> Plants;
-    private int maxPlants = 5000;
+    public List<Plant> Plants;
+    public int maxPlants = 1000;
+    private bool _canSpawn = true;
 
-    public void AddPlant(GameObject plant)
+
+    public void Start()
     {
-        Plants.Add(plant);
+        float seedNum = 100;
+
+        for (int i = 0; i < seedNum; i++)
+        {
+            float distance = Random.Range(1, 30);
+            Vector2 vector = Random.insideUnitCircle.normalized * distance;
+            Vector3 pos = new Vector3(transform.position.x + vector.x, 0, transform.position.z + vector.y);
+            CreatePlant(pos);
+        }
     }
 
-    public void RemovePlant(GameObject plant)
+    public void CreatePlant(Vector3 pos)
     {
-        Plants.Remove(plant);
+        GameObject newPlant = Instantiate(plantPrefab, transform);
+        newPlant.name = "Plant";
+        newPlant.transform.position = pos;
     }
 }

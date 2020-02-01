@@ -20,5 +20,5 @@ public class GameManager : MonoBehaviour
     }
 
     public Player player;
-    public Camera camera;
+    public Camera mainCamera;
 }

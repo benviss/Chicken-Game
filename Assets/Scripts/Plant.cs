@@ -7,63 +7,97 @@ public class Plant : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
     int displayedFoliage;
-    public int sleepTimer;
     public float growth;
-    float growthRate = 10.0f;
+    float growthRate = 3.00f;
     public float age;
-    float maxAge = 120;
+    public float maxAge;
     float scale = 2;
-    float nearDistance = 5;
-    float maxNearPlants = 2;
+    float nearDistance = 3;
+    float maxNearPlants = 3;
+    float spawnTimer = 20;
 
-    List<GameObject> NearPlants;
+    int NearPlants;
 
     void Start()
     {
-        PlantManager.Instance.AddPlant(this.gameObject);
-        displayedFoliage = Random.Range(0, PlantManager.Instance.Sprites.Length-1);
-        transform.rotation = Quaternion.Euler(0, Random.Range(-20, 20), 0);
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = PlantManager.Instance.Sprites[displayedFoliage];
-        NearPlants = new List<GameObject>();
-        growth = .1f;
-        age = 0f;
-        sleepTimer = 0;
-
+        NearPlants = 0;
         FindNearPlants();
-
-        UpdateScale();
-    }
-
-    void Update()
-    {
-        age += Time.deltaTime;
-        if (age > maxAge)
+        if ((NearPlants > maxNearPlants * 2) || !IsOnGround())
         {
             Kill();
         }
 
-        if (sleepTimer > 0)
-        {
-            sleepTimer--;
-            return;
-        }
+        displayedFoliage = Random.Range(0, PlantManager.Instance.Sprites.Length - 1);
+        transform.rotation = Quaternion.Euler(0, Random.Range(-30, 30), 0);
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = PlantManager.Instance.Sprites[displayedFoliage];
+        growth = .1f;
+        age = 0f;
+        maxAge = Random.Range(100, 300);
+        StartCoroutine(Grow());
+        StartCoroutine(Lifetime());
+    }
 
-        if (growth < 1)
+
+    private IEnumerator Grow()
+    {
+        while (growth < 1)
         {
             growth += (Time.deltaTime / growthRate);
             UpdateScale();
-            return;
+            yield return null;
         }
+        StartCoroutine(Spawn());
+    }
 
-        if (IsCrowded())
+    private IEnumerator Spawn()
+    {
+        float wait = Random.Range(spawnTimer * .3f, spawnTimer);
+        yield return new WaitForSeconds(wait);
+
+        while (true)
         {
-            sleepTimer = 100;
-            return;
+            if (!IsCrowded())
+            {
+                TrySpawn();
+            }
+            else
+            {
+                age += spawnTimer;
+            }
+            yield return new WaitForSeconds(spawnTimer);
+        }
+    }
+
+
+    private IEnumerator Lifetime()
+    {
+        while (age < maxAge)
+        {
+            age++;
+            yield return new WaitForSeconds(1);
         }
 
-        TrySpawn();
-        sleepTimer += 50;
+        StartCoroutine(Die());
+    }
+
+    private IEnumerator Die()
+    {
+        float dieTime = 1f;
+        float dieSpeed = 1.5f;
+        Color deathColor = new Color(.9f, .85f, .85f);
+        Color defaultColor = spriteRenderer.color;
+        while (dieTime > 0)
+        {
+            dieTime -= Time.deltaTime * dieSpeed;
+            growth = dieTime;
+            growth = Mathf.Clamp(growth, .01f, 1);
+            UpdateScale();
+            spriteRenderer.color = Color.Lerp(defaultColor, deathColor, dieTime);
+            yield return null;
+        }
+
+        Kill();
     }
 
     private void UpdateScale()
@@ -74,7 +108,8 @@ public class Plant : MonoBehaviour
 
     private bool IsCrowded()
     {
-        if (NearPlants.Count > maxNearPlants)
+        FindNearPlants();
+        if (NearPlants > maxNearPlants)
         {
             return true;
         }
@@ -84,64 +119,46 @@ public class Plant : MonoBehaviour
 
     private void FindNearPlants()
     {
-        foreach (GameObject plant in PlantManager.Instance.Plants)
-        {
-            if (plant == this.gameObject)
-            {
-                continue;
-            }
-
-            float dist = Vector3.Magnitude(plant.transform.position - transform.position);
-
-            if (dist < nearDistance)
-            {
-                NearPlants.Add(plant);
-            }
-        }
+        int layerMask = LayerMask.GetMask("Plant");
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, nearDistance, layerMask);
+        NearPlants = hitColliders.Length;
     }
 
-    private void NotifyNearPlants()
+    private bool IsOnGround()
     {
-        foreach (GameObject plant in NearPlants)
-        {
-            plant.GetComponent<Plant>().AddNearPlant(this.gameObject);
-        }
-    }
+        // Bit shift the index of the layer (8) to get a bit mask
+        int layerMask = LayerMask.GetMask("Ground");
 
-    public void AddNearPlant(GameObject plant)
-    {
-        NearPlants.Add(plant);
+        RaycastHit hit;
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(transform.position + Vector3.up, transform.TransformDirection(Vector3.down), out hit, 10, layerMask))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void TrySpawn()
     {
         if (PlantManager.Instance.CanSpawn)
         {
-            if (Random.Range(0, 1000) > 900)
-            {
-                float seedNum = Random.Range(1, 3);
+            float seedNum = Random.Range(1, 3);
 
-                for (int i = 0; i < seedNum; i++)
-                {
-                    float distance = Random.Range(1, 10);
-                    Vector2 vector = Random.insideUnitCircle.normalized * distance;
-                    Vector3 pos = new Vector3(transform.position.x + vector.x, 0, transform.position.z + vector.y);
-                    CreatePlant(pos);
-                }
+            for (int i = 0; i < seedNum; i++)
+            {
+                float distance = Random.Range(1, 10);
+                Vector2 vector = Random.insideUnitCircle.normalized * distance;
+                Vector3 pos = new Vector3(transform.position.x + vector.x, 0, transform.position.z + vector.y);
+                PlantManager.Instance.CreatePlant(pos);
             }
         }
     }
 
     private void Kill()
     {
-        PlantManager.Instance.RemovePlant(this.gameObject);
         Destroy(this.gameObject);
-    }
-
-    private void CreatePlant(Vector3 pos)
-    {
-        GameObject newPlant = Instantiate(this.gameObject, transform.parent);
-        newPlant.name = "Plant";
-        newPlant.transform.position = pos;
     }
 }
