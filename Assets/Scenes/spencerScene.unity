@@ -244,9 +244,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddf137c35336404ca4c46aade6b9373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sleepTimer: 0
   growth: 0
   age: 0
+  maxAge: 0
 --- !u!1 &458737187
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,9 +340,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddf137c35336404ca4c46aade6b9373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sleepTimer: 0
   growth: 0
   age: 0
+  maxAge: 0
 --- !u!1 &666600769
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,9 +436,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddf137c35336404ca4c46aade6b9373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sleepTimer: 0
   growth: 0
   age: 0
+  maxAge: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +542,7 @@ GameObject:
   - component: {fileID: 788448015}
   - component: {fileID: 788448014}
   - component: {fileID: 788448013}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -653,7 +653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1237389824}
-  camera: {fileID: 963194227}
+  mainCamera: {fileID: 0}
 --- !u!4 &849148101
 Transform:
   m_ObjectHideFlags: 0
@@ -993,9 +993,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddf137c35336404ca4c46aade6b9373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sleepTimer: 0
   growth: 0
   age: 0
+  maxAge: 0
 --- !u!1 &1356101817
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,6 +1025,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a48789616d9efb44e9bef5dfa4e4bcfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantPrefab: {fileID: 7643428377778430423, guid: dabd0c3ea5422b94bb4745dada589e9a,
+    type: 3}
   Sprites:
   - {fileID: 21300000, guid: 461c446b1e23b4b4d8676ba68a0483e2, type: 3}
   - {fileID: 21300000, guid: 15d27205fde1ce745b29bc8231705d3a, type: 3}
@@ -1032,6 +1034,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3b373e9e1ed5af14ab697dd25e3cffb1, type: 3}
   - {fileID: 21300000, guid: d676c4269cba6d441a036b11bd8ea1cf, type: 3}
   Plants: []
+  maxPlants: 1000
 --- !u!4 &1356101819
 Transform:
   m_ObjectHideFlags: 0
@@ -1076,9 +1079,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddf137c35336404ca4c46aade6b9373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sleepTimer: 0
   growth: 0
   age: 0
+  maxAge: 0
 --- !u!212 &1385176053
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1235,9 +1238,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddf137c35336404ca4c46aade6b9373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sleepTimer: 0
   growth: 0
   age: 0
+  maxAge: 0
 --- !u!1 &1644186841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,9 +1334,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddf137c35336404ca4c46aade6b9373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sleepTimer: 0
   growth: 0
   age: 0
+  maxAge: 0
 --- !u!1 &1868108984
 GameObject:
   m_ObjectHideFlags: 0
