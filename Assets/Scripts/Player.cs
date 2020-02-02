@@ -14,7 +14,6 @@ public class Player : MonoBehaviour, IActor
     void Start()
     {
         controller = GetComponent<PlayerController>();
-        transform.rotation = Quaternion.Euler(40, 0, 0);
         burb = GetComponent<Burb>();
     }
 

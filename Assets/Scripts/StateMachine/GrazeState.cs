@@ -21,14 +21,17 @@ public class GrazeState : IState
             findFood();
         }
 
+        if (Random.Range(1, 100) == 1)
+        {
+            findFood();
+        }
 
-        if (Vector3.Distance(owner.transform.position, foodTarget.position) < 1) {
+        if (Vector3.Distance(owner.transform.position, foodTarget.position) < 1 ) {
             //consume food target if next to it
             burb.TryAttack();
         } else {
             owner.MoveBoid();
         }
-
     }
 
     public void Exit()
@@ -47,6 +50,20 @@ public class GrazeState : IState
 
         Collider randomFood = foods[Random.Range(0, foods.Length - 1)];
         foodTarget = randomFood.gameObject.transform;
-        owner.target = foodTarget;
+        Vector3 leftPos = foodTarget.position - Vector3.right * .5f;
+        Vector3 rightPos = foodTarget.position + Vector3.right * .5f;
+
+        float leftDist = Vector3.Distance(leftPos, owner.position);
+        float rightDist = Vector3.Distance(rightPos, owner.position);
+
+        if (leftDist < rightDist)
+        {
+            owner.targetPosition = leftPos;
+        }
+        else
+        {
+            owner.targetPosition = rightPos;
+        }
+        owner.target = null;
     }
 }

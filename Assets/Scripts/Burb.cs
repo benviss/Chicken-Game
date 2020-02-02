@@ -25,6 +25,7 @@ public class Burb : MonoBehaviour, IEats
         boid = GetComponent<Boid>();
         if (boid != null) {
             boid.switchState(new GrazeState(boid, this));
+            attackDistance = 1;
         }
         spOrient = GetComponent<SpriteOrienter>();
         energy = 30;
@@ -51,17 +52,20 @@ public class Burb : MonoBehaviour, IEats
         float attackTime = attackTimeStart;
         float percentMod = 2 / attackTime;
         float percent = 1;
+        Vector3 trans = spOrient.spriteTransform.localScale;
 
-        while (attackTime > 0) {
+        while (attackTime > 0)
+        {
             attackTime -= Time.deltaTime;
 
             percent = Mathf.Abs((attackTime * percentMod) - 1);
             float squish = Mathf.Lerp(1.5f, 1f, percent);
             float stretch = Mathf.Lerp(.5f, 1f, percent);
 
-            transform.localScale = new Vector3(squish, stretch, squish);
+            spOrient.spriteTransform.localScale = new Vector3(squish * trans.x, stretch * trans.y, squish * trans.z);
 
-            if (!hasAttacked && (attackTime < attackTimeStart * .5f)) {
+            if (!hasAttacked && (attackTime < attackTimeStart * .5f))
+            {
                 hasAttacked = true;
                 Attack();
             }
@@ -69,7 +73,7 @@ public class Burb : MonoBehaviour, IEats
             yield return null;
         }
 
-        transform.localScale = new Vector3(1, 1, 1);
+        spOrient.spriteTransform.localScale = trans;
         attacking = false;
         lastAttack = Time.time;
     }
