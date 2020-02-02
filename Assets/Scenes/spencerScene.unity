@@ -175,13 +175,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500985387}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 1237389830}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
 --- !u!212 &500985389
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -571,6 +571,8 @@ GameObject:
   - component: {fileID: 1237389825}
   - component: {fileID: 1237389824}
   - component: {fileID: 1237389827}
+  - component: {fileID: 1237389828}
+  - component: {fileID: 1237389829}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -591,9 +593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  energy: 0
-  leftSprite: {fileID: 0}
-  rightSprite: {fileID: 0}
+  burb: {fileID: 0}
 --- !u!114 &1237389825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,6 +606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba679fa3d0f5714c9b46d26475dfd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!54 &1237389826
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -620,7 +621,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 36
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!135 &1237389827
 SphereCollider:
@@ -634,7 +635,34 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 0.93, z: 0}
+--- !u!114 &1237389828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237389823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d08c8b28ef9cfa244ba01811e80fee97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteTransform: {fileID: 0}
+--- !u!114 &1237389829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237389823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b98bd6cf0ffec04986924d9ba1e8564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grazeRange: 0
+  energy: 0
 --- !u!4 &1237389830
 Transform:
   m_ObjectHideFlags: 0
@@ -642,14 +670,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237389823}
-  m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 500985388}
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1356101817
 GameObject:
   m_ObjectHideFlags: 0

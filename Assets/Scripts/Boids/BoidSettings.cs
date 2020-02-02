@@ -7,7 +7,7 @@ using UnityEngine;
 public class BoidSettings : ScriptableObject
 {
     // Settings
-    public float minSpeed = 2;
+    public float minSpeed = 1;
     public float maxSpeed = 5;
     public float perceptionRadius = 2.5f;
     public float avoidanceRadius = 1;
@@ -17,7 +17,7 @@ public class BoidSettings : ScriptableObject
     public float cohesionWeight = 1;
     public float seperateWeight = 1;
 
-    public float targetWeight = 1;
+    public float targetWeight = 2;
 
     [Header("Collisions")]
     public LayerMask obstacleMask;

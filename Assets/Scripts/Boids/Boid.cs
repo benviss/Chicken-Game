@@ -30,6 +30,7 @@ public class Boid : MonoBehaviour, IActor
     public Material material;
     public Transform cachedTransform;
     public Transform target;
+    public Vector3 targetPosition;
 
     StateMachine stateMachine = new StateMachine();
 
@@ -84,8 +85,14 @@ public class Boid : MonoBehaviour, IActor
     {
         Vector3 acceleration = Vector3.zero;
 
-        if (target != null) {
+        if (target != null)
+        {
             Vector3 offsetToTarget = (target.position - position);
+            acceleration = SteerTowards(offsetToTarget) * settings.targetWeight;
+        }
+        if (targetPosition != null)
+        {
+            Vector3 offsetToTarget = (targetPosition - position);
             acceleration = SteerTowards(offsetToTarget) * settings.targetWeight;
         }
 
@@ -108,8 +115,9 @@ public class Boid : MonoBehaviour, IActor
             Vector3 collisionAvoidForce = SteerTowards(collisionAvoidDir) * settings.avoidCollisionWeight;
             acceleration += collisionAvoidForce;
         }
-
+        velocity *= .9f;
         velocity += acceleration * Time.deltaTime;
+        velocity.y = 0;
         float speed = velocity.magnitude;
         Vector3 dir = velocity / speed;
         speed = Mathf.Clamp(speed, settings.minSpeed, settings.maxSpeed);
