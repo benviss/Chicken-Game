@@ -30,7 +30,7 @@ public class Plant : MonoBehaviour, IDamagable
         }
 
         displayedFoliage = Random.Range(0, PlantManager.Instance.Sprites.Length - 1);
-        transform.rotation = Quaternion.Euler(0, Random.Range(-30, 30), 0);
+        transform.rotation = Quaternion.Euler(40, Random.Range(-30, 30), 0);
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = PlantManager.Instance.Sprites[displayedFoliage];
         growth = .1f;
@@ -40,6 +40,7 @@ public class Plant : MonoBehaviour, IDamagable
 
         growCoroutine = StartCoroutine(Grow(1));
         StartCoroutine(Lifetime());
+
     }
 
     private IEnumerator Grow(float modifier)

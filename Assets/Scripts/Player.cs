@@ -7,19 +7,28 @@ public class Player : MonoBehaviour, IEats
 {
     public float moveSpeed = 5;
     PlayerController controller;
-    float attackDistance = .5f;
+    float attackDistance = .7f;
     float damage = 1;
     float attackCooldown = .1f;
     float lastAttack = 0;
     bool attacking;
     public float energy;
+    bool isFacingRight = true;
     Coroutine attackCoroutine;
+    public Sprite leftSprite;
+    public Sprite rightSprite;
+    SpriteRenderer sprite;
+
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<PlayerController>();
-        energy = 10;
-        //transform.LookAt(Vector3.forward);
+        leftSprite = GameManager.Instance.leftChickenSprite;
+        rightSprite = GameManager.Instance.rightChickenSprite;
+        sprite = GetComponentInChildren<SpriteRenderer>();
+        sprite.sprite = rightSprite;
+        energy = 30;
+        transform.rotation = Quaternion.Euler(40, 0, 0);
     }
 
     // Update is called once per frame
@@ -38,6 +47,20 @@ public class Player : MonoBehaviour, IEats
         controller.Move(moveVelocity);
 
         energy -= Time.fixedDeltaTime;
+
+        if (moveVelocity.x != 0)
+        {
+            if ((moveVelocity.x > 0) && !isFacingRight)
+            {
+                isFacingRight = true;
+                sprite.sprite = rightSprite;
+            }
+            else if ((moveVelocity.x < 0) && isFacingRight)
+            {
+                isFacingRight = false;
+                sprite.sprite = leftSprite;
+            }
+        }
     }
 
     private IEnumerator AttackAnimation()
@@ -48,6 +71,7 @@ public class Player : MonoBehaviour, IEats
         float attackTime = attackTimeStart;
         float percentMod = 2 / attackTime;
         float percent = 1;
+
         while (attackTime > 0)
         {
             attackTime -= Time.deltaTime;
@@ -76,7 +100,17 @@ public class Player : MonoBehaviour, IEats
     {
         // should be able to hit whatever - for now plants
         int layerMask = LayerMask.GetMask("Plant");
-        Vector3 attackPos = (transform.position + transform.forward);
+        Vector3 attackPos = (transform.position);
+
+        if (isFacingRight)
+        {
+            attackPos.x += attackDistance*.5f;
+        }
+        else
+        {
+            attackPos.x -= attackDistance * .5f;
+        }
+
         attackPos.y = 0;
         Collider[] hitColliders = Physics.OverlapSphere(attackPos, attackDistance, layerMask);
 
