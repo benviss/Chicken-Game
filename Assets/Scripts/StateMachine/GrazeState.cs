@@ -30,21 +30,21 @@ public class GrazeState : IState
             //consume food target if next to it
             burb.TryAttack();
         } else {
+            Debug.Log("searching");
             owner.MoveBoid();
         }
     }
 
     public void Exit()
     {
-        owner.switchState(new BoidFlockState(owner));
     }
 
     public void findFood()
     {
-        int layerMask = 1 << 9; //Layer 9
-        var foods = Physics.OverlapSphere(owner.transform.position, 10, layerMask);
+        var foods = Physics.OverlapSphere(owner.transform.position, owner.grazeRange, LayerMask.GetMask("Plant"));
         if (foods.Length == 0) {
-            Exit();
+            owner.switchState(new BoidFlockState(owner, burb));
+            Debug.Log("exit state");
             return;
         }
 

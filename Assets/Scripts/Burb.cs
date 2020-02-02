@@ -10,7 +10,6 @@ public class Burb : MonoBehaviour, IEats
     float attackCooldown = .1f;
     float lastAttack = 0;
     bool attacking;
-    public float grazeRange;
     Coroutine attackCoroutine;
     SpriteOrienter spOrient;
 
