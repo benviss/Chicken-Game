@@ -33,6 +33,11 @@ public class Player : MonoBehaviour, IActor
 
     public float getVelocityX()
     {
+        if (controller.velocity == null)
+        {
+            return 0;
+        }
+
         return controller.velocity.x;
     }
    

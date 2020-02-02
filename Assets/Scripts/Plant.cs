@@ -7,7 +7,7 @@ public class Plant : MonoBehaviour, IDamagable
 {
     SpriteRenderer spriteRenderer;
     int displayedFoliage;
-    public float growth;
+    public float growth = 0;
     float growthRate = 10.00f;
     public float age;
     public float maxAge;
@@ -33,7 +33,6 @@ public class Plant : MonoBehaviour, IDamagable
         transform.rotation = Quaternion.Euler(40, Random.Range(-30, 30), 0);
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = PlantManager.Instance.Sprites[displayedFoliage];
-        growth = .1f;
         age = 0f;
         maxAge = Random.Range(100, 300);
         maxPlantFood = 10;

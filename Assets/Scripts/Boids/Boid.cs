@@ -38,7 +38,7 @@ public class Boid : MonoBehaviour, IActor
     public float grazeRange;
 
     StateMachine stateMachine = new StateMachine();
-
+    public string State;
     void Start()
     {
         //stateMachine.ChangeState(new BoidFlockState(this));
@@ -88,6 +88,7 @@ public class Boid : MonoBehaviour, IActor
     public void switchState(IState state)
     {
         stateMachine.ChangeState(state);
+        State = state.ToString();
     }
 
     public void MoveBoid()

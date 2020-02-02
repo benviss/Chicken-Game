@@ -35,21 +35,26 @@ public class PlantManager : MonoBehaviour
 
     public void Start()
     {
-        float seedNum = 100;
+        float seedNum = 500;
 
         for (int i = 0; i < seedNum; i++)
         {
-            float distance = Random.Range(1, 30);
+            float distance = Random.Range(1, 80);
             Vector2 vector = Random.insideUnitCircle.normalized * distance;
             Vector3 pos = new Vector3(transform.position.x + vector.x, 0, transform.position.z + vector.y);
-            CreatePlant(pos);
+            GameObject newPlant = CreatePlant(pos);
+
+            Plant p = newPlant.GetComponent<Plant>();
+            p.growth = .95f;
         }
     }
 
-    public void CreatePlant(Vector3 pos)
+    public GameObject CreatePlant(Vector3 pos)
     {
         GameObject newPlant = Instantiate(plantPrefab, transform);
         newPlant.name = "Plant";
         newPlant.transform.position = pos;
+
+        return newPlant;
     }
 }
