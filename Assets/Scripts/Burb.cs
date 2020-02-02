@@ -23,7 +23,9 @@ public class Burb : MonoBehaviour, IEats
     void Start()
     {
         boid = GetComponent<Boid>();
-        boid.switchState(new GrazeState(boid, this));
+        if (boid != null) {
+            boid.switchState(new GrazeState(boid, this));
+        }
         spOrient = GetComponent<SpriteOrienter>();
         energy = 30;
 
