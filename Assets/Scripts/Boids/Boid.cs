@@ -32,20 +32,10 @@ public class Boid : MonoBehaviour, IActor
     public Transform cachedTransform;
     public Transform target;
 
-    public Sprite leftSprite;
-    public Sprite rightSprite;
-    SpriteRenderer sprite;
-
-
     StateMachine stateMachine = new StateMachine();
 
     void Start()
     {
-        leftSprite = GameManager.Instance.leftChickenSprite;
-        rightSprite = GameManager.Instance.rightChickenSprite;
-        sprite = GetComponentInChildren<SpriteRenderer>();
-        sprite.sprite = rightSprite;
-
         stateMachine.ChangeState(new BoidFlockState(this));
     }
 
