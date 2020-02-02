@@ -14,7 +14,7 @@ public class Player : MonoBehaviour, IEats, IActor
     bool attacking;
     public float energy;
     Coroutine attackCoroutine;
-    public SpriteOrienter spOrient;
+    SpriteOrienter spOrient;
 
     Vector3 gizmoPos;
     float gizmoRad;
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour, IEats, IActor
     void Start()
     {
         controller = GetComponent<PlayerController>();
-
+        spOrient = GetComponent<SpriteOrienter>();
         energy = 30;
         transform.rotation = Quaternion.Euler(40, 0, 0);
     }
