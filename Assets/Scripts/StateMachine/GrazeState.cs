@@ -17,7 +17,7 @@ public class GrazeState : IState
     public void Execute()
     {
         //find food target if none already
-        if (foodTarget == null) {
+        if ((foodTarget == null) && (owner.targetPosition == null)) {
             findFood();
         }
 
@@ -25,8 +25,18 @@ public class GrazeState : IState
         {
             findFood();
         }
-        
-        if (Vector3.Distance(owner.transform.position, foodTarget.position) < 1 ) {
+        Vector3 targetPos;
+        if (foodTarget != null)
+        {
+            targetPos = foodTarget.position;
+        }
+        else
+        {
+            targetPos = owner.targetPosition;
+        }
+
+
+        if (Vector3.Distance(owner.transform.position, targetPos) < 1 ) {
             //consume food target if next to it
             burb.TryAttack();
         } else {

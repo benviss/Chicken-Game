@@ -24,7 +24,7 @@ public class SpriteOrienter : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (owner.getVelocityX() != 0) {
             if ((owner.getVelocityX() > 0) && !isFacingRight) {
