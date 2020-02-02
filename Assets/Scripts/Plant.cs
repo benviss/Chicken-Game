@@ -82,11 +82,12 @@ public class Plant : MonoBehaviour, IDamagable
             yield return new WaitForSeconds(1);
         }
 
-        StartCoroutine(Die(1));
+        StartCoroutine(Die());
     }
 
-    private IEnumerator Die(float dieTime)
+    private IEnumerator Die()
     {
+        float dieTime = growth;
         float dieSpeed = 1.5f;
         Color deathColor = new Color(.9f, .85f, .85f);
         Color defaultColor = spriteRenderer.color;
@@ -113,7 +114,7 @@ public class Plant : MonoBehaviour, IDamagable
 
         if (growth < .1)
         {
-            StartCoroutine(Die(growth));
+            StartCoroutine(Die());
             return food;
         }
 
