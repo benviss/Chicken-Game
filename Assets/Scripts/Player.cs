@@ -16,6 +16,9 @@ public class Player : MonoBehaviour, IEats, IActor
     Coroutine attackCoroutine;
     public SpriteOrienter spOrient;
 
+    Vector3 gizmoPos;
+    float gizmoRad;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -81,18 +84,19 @@ public class Player : MonoBehaviour, IEats, IActor
         // should be able to hit whatever - for now plants
         int layerMask = LayerMask.GetMask("Plant");
         Vector3 attackPos = (transform.position);
-
         if (spOrient.getFacingRight())
         {
-            attackPos.x += attackDistance*.5f;
+            attackPos.x += attackDistance;
         }
         else
         {
-            attackPos.x -= attackDistance * .5f;
+            attackPos.x -= attackDistance;
         }
 
-        attackPos.y = 0;
+        attackPos.y = attackDistance * .5f;
         Collider[] hitColliders = Physics.OverlapSphere(attackPos, attackDistance, layerMask);
+        gizmoPos = attackPos;
+        gizmoRad = attackDistance;
 
         foreach (Collider c in hitColliders)
         {
@@ -113,5 +117,11 @@ public class Player : MonoBehaviour, IEats, IActor
     public float getVelocityX()
     {
         return controller.velocity.x;
+    }
+    
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(gizmoPos, gizmoRad);
     }
 }
