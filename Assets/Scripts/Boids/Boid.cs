@@ -32,6 +32,11 @@ public class Boid : MonoBehaviour, IActor
     public Transform target;
     public Vector3 targetPosition;
 
+    public Transform flockTarget;
+
+    public float followRange;
+    public float grazeRange;
+
     StateMachine stateMachine = new StateMachine();
 
     void Start()
@@ -48,6 +53,7 @@ public class Boid : MonoBehaviour, IActor
     public void Initialize(BoidSettings settings, Transform target)
     {
         this.target = target;
+        this.flockTarget = target;
         this.settings = settings;
 
         position = cachedTransform.position;
@@ -89,11 +95,10 @@ public class Boid : MonoBehaviour, IActor
         {
             Vector3 offsetToTarget = (target.position - position);
             acceleration = SteerTowards(offsetToTarget) * settings.targetWeight;
-        }
-        if (targetPosition != null)
-        {
+        } else {
             Vector3 offsetToTarget = (targetPosition - position);
             acceleration = SteerTowards(offsetToTarget) * settings.targetWeight;
+
         }
 
         if (numPerceivedFlockmates != 0) {
