@@ -48,6 +48,7 @@ public class Boid : MonoBehaviour, IActor
     {
         //material = transform.GetComponentInChildren<MeshRenderer>().material;
         cachedTransform = transform;
+        Initialize(BoidManager.Instance.settings, BoidManager.Instance.target);
     }
 
     public void Initialize(BoidSettings settings, Transform target)
@@ -73,8 +74,6 @@ public class Boid : MonoBehaviour, IActor
     public void UpdateBoid()
     {
         stateMachine.Update();
-
-        transform.rotation = Quaternion.Euler(40, 0, 0);
     }
 
     public float getVelocityX()

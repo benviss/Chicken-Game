@@ -20,7 +20,7 @@ public class SpriteOrienter : MonoBehaviour
         spriteTransform = sprite.gameObject.transform;
         sprite.sprite = rightSprite;
         owner = GetComponent<IActor>();
-        transform.rotation = Quaternion.Euler(40, 0, 0);
+        spriteTransform.rotation = Quaternion.Euler(40, 0, 0);
     }
 
     // Update is called once per frame
