@@ -6,7 +6,7 @@ public class SpriteOrienter : MonoBehaviour
 {
     Sprite leftSprite;
     Sprite rightSprite;
-    SpriteRenderer sprite;
+    internal SpriteRenderer sprite;
     bool isFacingRight = true;
     internal Transform spriteTransform;
     public IActor owner;

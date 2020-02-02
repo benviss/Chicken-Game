@@ -14,7 +14,6 @@ public class Burb : MonoBehaviour, IEats
     Coroutine pootEggCoroutine;
     Coroutine attackCoroutine;
     SpriteOrienter spOrient;
-
     Vector3 gizmoPos;
     float gizmoRad;
 
@@ -45,11 +44,59 @@ public class Burb : MonoBehaviour, IEats
         {
             pootEggCoroutine = StartCoroutine(PootEggAnimation());
         }
+
+        if (energy < 100)
+        {
+            if (boid != null)
+            {
+                if ((boid.State == "BoidFlockState") && (Random.Range(1, 100) == 1))
+                {
+                    boid.switchState(new GrazeState(boid, this));
+                }
+            }
+        }
+
         if (energy < 0)
         {
-            //Debug.Log("RIP");
-            // idk how i wanna kill em yet
+            if (boid != null)
+            {
+                if (!isBusy)
+                {
+                    boid.switchState(new IdleState(boid, this));
+                    StartCoroutine(DieAnimation());
+                }
+            }
+            else
+            {
+                //gameover
+                energy += 5;
+            }
         }
+    }
+
+    private IEnumerator DieAnimation()
+    {
+        isBusy = true;
+        float totalTime = 30f;
+        float t = 0;
+        float percent = 0;
+        Vector3 trans = transform.localScale;
+        Color deathColor = new Color(0f, 0f, 0f, 0f);
+        Color defaultColor = spOrient.sprite.color;
+        while (percent < 1)
+        {
+            percent = t / totalTime;
+            float fallover = Mathf.Lerp(0, 90, percent*10);
+            spOrient.spriteTransform.rotation = Quaternion.Euler(40, 0, fallover);
+            float scale = Mathf.Lerp(1.2f, 5, percent);
+            scale = Mathf.Clamp(scale, 0, 1);
+            transform.localScale = new Vector3(scale * trans.x, scale * trans.y, scale * trans.z);
+            spOrient.sprite.color = Color.Lerp(defaultColor, deathColor, percent);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        Kill();
     }
 
     private IEnumerator PootEggAnimation()
@@ -115,7 +162,7 @@ public class Burb : MonoBehaviour, IEats
         while (percent <1)
         {
             percent = t / totalTime;
-            float scale = Mathf.Lerp(.2f, 1, percent);
+            float scale = Mathf.Lerp(.3f, 1, percent);
             transform.localScale = new Vector3(scale * trans.x, scale * trans.y, scale * trans.z);
             t += Time.deltaTime;
             yield return null;
@@ -203,9 +250,13 @@ public class Burb : MonoBehaviour, IEats
         Gizmos.DrawWireSphere(gizmoPos, gizmoRad);
     }
 
-
     public void GetFood(float foodAmount)
     {
         energy += foodAmount;
+    }
+
+    private void Kill()
+    {
+        Destroy(this.gameObject);
     }
 }
