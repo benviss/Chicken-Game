@@ -5,6 +5,21 @@ using UnityEngine;
 
 public class BoidManager : MonoBehaviour
 {
+    private static BoidManager _instance;
+    public static BoidManager Instance { get { return _instance; } }
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
 
     const int threadGroupSize = 1024;
 
@@ -16,7 +31,8 @@ public class BoidManager : MonoBehaviour
     void Start()
     {
         boids = FindObjectsOfType<Boid>();
-        foreach (Boid b in boids) {
+        foreach (Boid b in boids)
+        {
             b.Initialize(settings, target);
         }
 

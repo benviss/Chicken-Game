@@ -25,7 +25,7 @@ public class GrazeState : IState
         {
             findFood();
         }
-
+        
         if (Vector3.Distance(owner.transform.position, foodTarget.position) < 1 ) {
             //consume food target if next to it
             burb.TryAttack();

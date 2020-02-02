@@ -24,4 +24,7 @@ public class GameManager : MonoBehaviour
 
     public Sprite leftChickenSprite;
     public Sprite rightChickenSprite;
+
+    public GameObject burbPrefab;
+    public GameObject eggPrefab;
 }
