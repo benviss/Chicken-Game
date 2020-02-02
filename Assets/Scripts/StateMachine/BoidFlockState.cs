@@ -62,6 +62,7 @@ public class BoidFlockState : IState
         owner.cachedTransform.position += owner.velocity * Time.deltaTime;
         owner.cachedTransform.forward = dir;
         owner.position = owner.cachedTransform.position;
+        owner.position.y = 0;
         owner.forward = dir;
     }
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boid : MonoBehaviour
+public class Boid : MonoBehaviour, IActor
 {
     [HideInInspector]
     public BoidSettings settings;
@@ -32,16 +32,26 @@ public class Boid : MonoBehaviour
     public Transform cachedTransform;
     public Transform target;
 
+    public Sprite leftSprite;
+    public Sprite rightSprite;
+    SpriteRenderer sprite;
+
+
     StateMachine stateMachine = new StateMachine();
 
     void Start()
     {
+        leftSprite = GameManager.Instance.leftChickenSprite;
+        rightSprite = GameManager.Instance.rightChickenSprite;
+        sprite = GetComponentInChildren<SpriteRenderer>();
+        sprite.sprite = rightSprite;
+
         stateMachine.ChangeState(new BoidFlockState(this));
     }
 
     void Awake()
     {
-        material = transform.GetComponentInChildren<MeshRenderer>().material;
+        //material = transform.GetComponentInChildren<MeshRenderer>().material;
         cachedTransform = transform;
     }
 
@@ -59,13 +69,20 @@ public class Boid : MonoBehaviour
 
     public void SetColour(Color col)
     {
-        if (material != null) {
-            material.color = col;
-        }
+        //if (material != null) {
+        //    material.color = col;
+        //}
     }
 
     public void UpdateBoid()
     {
         stateMachine.Update();
+
+        transform.rotation = Quaternion.Euler(40, 0, 0);
+    }
+
+    public float getVelocityX()
+    {
+        return velocity.x;
     }
 }
