@@ -10,6 +10,7 @@ public class Burb : MonoBehaviour, IEats
     float attackCooldown = .1f;
     float lastAttack = 0;
     bool isBusy;
+    float energyMultiplier;
     Coroutine pootEggCoroutine;
     Coroutine attackCoroutine;
     SpriteOrienter spOrient;
@@ -23,9 +24,12 @@ public class Burb : MonoBehaviour, IEats
     void Start()
     {
         boid = GetComponent<Boid>();
+        energyMultiplier = 1;
+
         if (boid != null) {
             boid.switchState(new GrazeState(boid, this));
             attackDistance = 1;
+            energyMultiplier = .5f;
             StartCoroutine(GrowUpAnimation());
         }
 
@@ -35,7 +39,7 @@ public class Burb : MonoBehaviour, IEats
 
     void FixedUpdate()
     {
-        energy -= Time.fixedDeltaTime;
+        energy -= Time.fixedDeltaTime * energyMultiplier;
 
         if ((energy > 300) && (!isBusy))
         {
@@ -117,6 +121,7 @@ public class Burb : MonoBehaviour, IEats
             yield return null;
         }
 
+        energyMultiplier = 1;
         transform.localScale = trans;
         isBusy = false;
 

@@ -30,12 +30,21 @@ public class BoidManager : MonoBehaviour
 
     void Start()
     {
+        //InitilizeBoids();
+    }
+
+    public void InitilizeBoids()
+    {
         boids = FindObjectsOfType<Boid>();
         foreach (Boid b in boids)
         {
-            b.Initialize(settings, target);
+            InitBoid(b);
         }
+    }
 
+    public void InitBoid(Boid b)
+    {
+        b.Initialize(settings, target);
     }
 
     void Update()
