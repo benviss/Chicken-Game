@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent (typeof(PlayerController))]
-public class Player : MonoBehaviour, IEats
+public class Player : MonoBehaviour, IEats, IActor
 {
     public float moveSpeed = 5;
     PlayerController controller;
@@ -13,11 +13,8 @@ public class Player : MonoBehaviour, IEats
     float lastAttack = 0;
     bool attacking;
     public float energy;
-    bool isFacingRight = true;
     Coroutine attackCoroutine;
-    public Sprite leftSprite;
-    public Sprite rightSprite;
-    SpriteRenderer sprite;
+    public SpriteOrienter spOrient;
 
     Vector3 gizmoPos;
     float gizmoRad;
@@ -26,10 +23,7 @@ public class Player : MonoBehaviour, IEats
     void Start()
     {
         controller = GetComponent<PlayerController>();
-        leftSprite = GameManager.Instance.leftChickenSprite;
-        rightSprite = GameManager.Instance.rightChickenSprite;
-        sprite = GetComponentInChildren<SpriteRenderer>();
-        sprite.sprite = rightSprite;
+
         energy = 30;
         transform.rotation = Quaternion.Euler(40, 0, 0);
     }
@@ -50,20 +44,6 @@ public class Player : MonoBehaviour, IEats
         controller.Move(moveVelocity);
 
         energy -= Time.fixedDeltaTime;
-
-        if (moveVelocity.x != 0)
-        {
-            if ((moveVelocity.x > 0) && !isFacingRight)
-            {
-                isFacingRight = true;
-                sprite.sprite = rightSprite;
-            }
-            else if ((moveVelocity.x < 0) && isFacingRight)
-            {
-                isFacingRight = false;
-                sprite.sprite = leftSprite;
-            }
-        }
     }
 
     private IEnumerator AttackAnimation()
@@ -104,8 +84,7 @@ public class Player : MonoBehaviour, IEats
         // should be able to hit whatever - for now plants
         int layerMask = LayerMask.GetMask("Plant");
         Vector3 attackPos = (transform.position);
-        
-        if (isFacingRight)
+        if (spOrient.getFacingRight())
         {
             attackPos.x += attackDistance;
         }
@@ -135,6 +114,11 @@ public class Player : MonoBehaviour, IEats
         energy += foodAmount;
     }
 
+    public float getVelocityX()
+    {
+        return controller.velocity.x;
+    }
+    
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
