@@ -19,6 +19,9 @@ public class Player : MonoBehaviour, IEats
     public Sprite rightSprite;
     SpriteRenderer sprite;
 
+    Vector3 gizmoPos;
+    float gizmoRad;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -101,18 +104,20 @@ public class Player : MonoBehaviour, IEats
         // should be able to hit whatever - for now plants
         int layerMask = LayerMask.GetMask("Plant");
         Vector3 attackPos = (transform.position);
-
+        
         if (isFacingRight)
         {
-            attackPos.x += attackDistance*.5f;
+            attackPos.x += attackDistance;
         }
         else
         {
-            attackPos.x -= attackDistance * .5f;
+            attackPos.x -= attackDistance;
         }
 
-        attackPos.y = 0;
+        attackPos.y = attackDistance * .5f;
         Collider[] hitColliders = Physics.OverlapSphere(attackPos, attackDistance, layerMask);
+        gizmoPos = attackPos;
+        gizmoRad = attackDistance;
 
         foreach (Collider c in hitColliders)
         {
@@ -128,5 +133,11 @@ public class Player : MonoBehaviour, IEats
     public void GetFood(float foodAmount)
     {
         energy += foodAmount;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(gizmoPos, gizmoRad);
     }
 }
