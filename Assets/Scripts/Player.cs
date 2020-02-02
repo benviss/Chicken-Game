@@ -7,7 +7,7 @@ public class Player : MonoBehaviour, IEats
 {
     public float moveSpeed = 5;
     PlayerController controller;
-    float attackDistance = .5f;
+    float attackDistance = .7f;
     float damage = 1;
     float attackCooldown = .1f;
     float lastAttack = 0;
@@ -18,8 +18,7 @@ public class Player : MonoBehaviour, IEats
     void Start()
     {
         controller = GetComponent<PlayerController>();
-        energy = 10;
-        //transform.LookAt(Vector3.forward);
+        energy = 30;
     }
 
     // Update is called once per frame
@@ -76,7 +75,7 @@ public class Player : MonoBehaviour, IEats
     {
         // should be able to hit whatever - for now plants
         int layerMask = LayerMask.GetMask("Plant");
-        Vector3 attackPos = (transform.position + transform.forward);
+        Vector3 attackPos = (transform.position + transform.forward*attackDistance);
         attackPos.y = 0;
         Collider[] hitColliders = Physics.OverlapSphere(attackPos, attackDistance, layerMask);
 
