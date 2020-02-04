@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Boid;
 
 public class GrazeState : IState
 {
     Boid owner;
-    Burb burb;
+    FoodTypes food;
     Transform foodTarget;
 
-    public GrazeState(Boid owner, Burb burb) { this.owner = owner; this.burb = burb; }
+    public GrazeState(Boid owner, FoodTypes food) { this.owner = owner; this.food = food; }
 
     public void Enter()
     {
@@ -26,9 +27,9 @@ public class GrazeState : IState
             findFood();
         }
 
-        if (Vector3.Distance(owner.transform.position, foodTarget.position) < 1 ) {
+        if (foodTarget != null && Vector3.Distance(owner.transform.position, foodTarget.position) < 1 ) {
             //consume food target if next to it
-            burb.TryAttack();
+            owner.TryAttack();
         } else {
             Debug.Log("searching");
             owner.MoveBoid();
@@ -41,9 +42,12 @@ public class GrazeState : IState
 
     public void findFood()
     {
-        var foods = Physics.OverlapSphere(owner.transform.position, owner.grazeRange, LayerMask.GetMask("Plant"));
+        if (food == FoodTypes.Bird) {
+            var bk = LayerMask.GetMask(BoidUtils.GetFoodTypeString(food));
+        }
+        var foods = Physics.OverlapSphere(owner.transform.position, owner.grazeRange, LayerMask.GetMask(BoidUtils.GetFoodTypeString(food)));
         if (foods.Length == 0) {
-            owner.switchState(new BoidFlockState(owner, burb));
+            owner.switchState(new BoidFlockState(owner, food));
             Debug.Log("exit state");
             return;
         }
