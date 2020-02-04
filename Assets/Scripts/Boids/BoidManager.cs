@@ -1,23 +1,28 @@
 ﻿//COURTESY OF SEBASTIAN LAGUE A HERO AMONG MEN
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BoidManager : MonoBehaviour
 {
-
     const int threadGroupSize = 1024;
 
     public BoidSettings settings;
     public ComputeShader compute;
     public Transform target;
+    public GameObject boidPrefab;
     Boid[] boids;
 
     void Start()
     {
-        boids = FindObjectsOfType<Boid>();
-        foreach (Boid b in boids) {
-            b.Initialize(settings, target);
+        var boidObjects = GameObject.FindGameObjectsWithTag(boidPrefab.tag);
+        boids = boidObjects.Select(gObj => gObj.GetComponent<Boid>()).ToArray();
+       
+        foreach (Boid boid in boids) {
+            if (boid == null) throw new System.Exception("Non-boid found in Boid Manager tags");
+            
+            boid.Initialize(settings, target);
         }
 
     }
