@@ -6,4 +6,5 @@ public interface IBoidActor
 {
     string GetFoodType();
     void TryAttack();
+    bool IsDead();
 }

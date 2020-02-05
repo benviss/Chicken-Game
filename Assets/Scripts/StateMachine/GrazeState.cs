@@ -7,6 +7,7 @@ public class GrazeState : IState
     Boid owner;
     IBoidActor boidActor;
     Transform foodTarget;
+    IBoidActor targetFoodActor;
 
     public GrazeState(Boid owner, IBoidActor boidActor) { this.owner = owner; this.boidActor = boidActor; }
 
@@ -16,6 +17,7 @@ public class GrazeState : IState
 
     public void Execute()
     {
+
         if (foodTarget != null) {
             Debug.DrawLine(owner.transform.position, foodTarget.position, Color.red);
             
@@ -25,17 +27,14 @@ public class GrazeState : IState
             }
         }
 
-        if (foodTarget != null && boidActor.GetFoodType() == "Bird") {
-            //go for food till dead
-        } else {
-            //find food target if none already
-            if ((foodTarget == null) && (owner.targetPosition == null)) {
-                findFood();
-            }
 
-            if (Random.Range(1, 100) == 1) {
-                findFood();
-            }
+        //find food target if none already
+        if ((foodTarget == null) && (owner.targetPosition == null)) {
+            findFood();
+        }
+
+        if (Random.Range(1, 100) == 1) {
+            findFood();
         }
 
         Vector3 targetPos;
@@ -64,18 +63,26 @@ public class GrazeState : IState
 
     public void findFood()
     {
-        if (boidActor.GetFoodType() != "Plant") {
-
-        }
         var foods = Physics.OverlapSphere(owner.transform.position, owner.grazeRange, LayerMask.GetMask(boidActor.GetFoodType()));
         if (foods.Length == 0) {
             owner.switchState(new BoidFlockState(owner, boidActor));
             Debug.Log("exit state");
             return;
         }
+        List<GameObject> aliveFoods = new List<GameObject>();
+        foreach (var item in foods) {
+            //this is bad fix it later
+            var foodActor = foodTarget.GetComponent<IBoidActor>();
+            if (foodActor != null && !foodActor.IsDead()) {
+                var aliveFood = item.gameObject;
 
-        Collider randomFood = foods[Random.Range(0, foods.Length - 1)];
-        foodTarget = randomFood.gameObject.transform;
+                aliveFoods.Add(aliveFood);
+            }
+        }
+
+        GameObject randomFood = aliveFoods[Random.Range(0, aliveFoods.Count - 1)];
+        targetFoodActor = foodTarget.GetComponent<IBoidActor>();//very bad to do it twice 
+
         Vector3 leftPos = foodTarget.position - Vector3.right * .5f;
         Vector3 rightPos = foodTarget.position + Vector3.right * .5f;
 

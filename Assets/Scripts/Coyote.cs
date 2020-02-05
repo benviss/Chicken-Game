@@ -5,7 +5,7 @@ using UnityEngine;
 public class Coyote : MonoBehaviour, IEats, IBoidActor, IDamagable
 {
     Boid boid;
-    float AttackRange = 3f;
+    float AttackRange = 2f;
     float attackDistance = .7f;
     float damage = 100;
     float attackCooldown = .1f;
@@ -180,5 +180,10 @@ public class Coyote : MonoBehaviour, IEats, IBoidActor, IDamagable
     public void TakeHit(float damage, IEats hitter)
     {
         energy -= damage;
+    }
+
+    public bool IsDead()
+    {
+        return energy <= 0;
     }
 }

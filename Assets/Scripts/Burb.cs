@@ -270,4 +270,9 @@ public class Burb : MonoBehaviour, IEats, IBoidActor, IDamagable
         Debug.Log($"Bird hit energy now {energy}");
         energy -= damage;
     }
+
+    public bool IsDead()
+    {
+        return energy <= 0;
+    }
 }
