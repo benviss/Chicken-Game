@@ -364,13 +364,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd3331dcc8c7034cb4e492bae4c4417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1648398902}
   mainCamera: {fileID: 963194227}
   leftChickenSprite: {fileID: 21300000, guid: 2cd168addc0e0594f999b0850f434b70, type: 3}
   rightChickenSprite: {fileID: 21300000, guid: 9ff45a87e35aa8049a7802f28ae8421f, type: 3}
   burbPrefab: {fileID: 1449540652033705520, guid: 35d4eb3225c9f1b40832671f3780ceb2,
     type: 3}
-  eggPrefab: {fileID: 0}
+  eggPrefab: {fileID: 3614548285267010663, guid: e853b8ee0b0813447a15a2d2519c761e,
+    type: 3}
 --- !u!4 &849148101
 Transform:
   m_ObjectHideFlags: 0
@@ -603,3 +604,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1648398902 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3172224982452315399, guid: 700948f8fc3c5574cbe6c419d21f9b77,
+    type: 3}
+  m_PrefabInstance: {fileID: 1348209554}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beeab62556599bd4d8d34e5e12253ce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
