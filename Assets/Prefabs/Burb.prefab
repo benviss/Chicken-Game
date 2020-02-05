@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1449540652033705487}
   m_Layer: 8
   m_Name: Burb
-  m_TagString: Chicken
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,10 +87,6 @@ MonoBehaviour:
   material: {fileID: 0}
   cachedTransform: {fileID: 0}
   target: {fileID: 0}
-  targetPosition: {x: 0, y: 0, z: 0}
-  flockTarget: {fileID: 0}
-  followRange: 0
-  grazeRange: 0
 --- !u!114 &1449540652033705487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,8 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d08c8b28ef9cfa244ba01811e80fee97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftSprite: {fileID: 0}
-  rightSprite: {fileID: 0}
 --- !u!1 &1449540652848367193
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Burb : MonoBehaviour, IEats 
+public class Burb : MonoBehaviour, IEats
 {
     Boid boid;
     float attackDistance = .7f;
