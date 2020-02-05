@@ -53,7 +53,7 @@ public class GrazeState : IState
             //consume food target if next to it
             boidActor.TryAttack();
         } else {
-            Debug.Log("searching");
+            Debug.Log($"searching for {boidActor.GetFoodType()}");
             owner.MoveBoid();
         }
     }

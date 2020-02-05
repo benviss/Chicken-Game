@@ -560,7 +560,7 @@ PrefabInstance:
     - target: {fileID: 814118725578687789, guid: ec4ba69a3b0514b45aeb19edabc84956,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 814118725578687791, guid: ec4ba69a3b0514b45aeb19edabc84956,
         type: 3}
@@ -803,7 +803,7 @@ PrefabInstance:
     - target: {fileID: 7648664432455249891, guid: 46b3e7b52f4cb6347810de8302acc9a3,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46b3e7b52f4cb6347810de8302acc9a3, type: 3}
@@ -877,7 +877,7 @@ PrefabInstance:
     - target: {fileID: 7648664432455249891, guid: 46b3e7b52f4cb6347810de8302acc9a3,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46b3e7b52f4cb6347810de8302acc9a3, type: 3}
@@ -1118,7 +1118,7 @@ PrefabInstance:
     - target: {fileID: 7648664432455249891, guid: 46b3e7b52f4cb6347810de8302acc9a3,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46b3e7b52f4cb6347810de8302acc9a3, type: 3}
@@ -1342,7 +1342,7 @@ PrefabInstance:
     - target: {fileID: 7648664432455249891, guid: 46b3e7b52f4cb6347810de8302acc9a3,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46b3e7b52f4cb6347810de8302acc9a3, type: 3}
@@ -1434,7 +1434,7 @@ PrefabInstance:
     - target: {fileID: 7648664432455249891, guid: 46b3e7b52f4cb6347810de8302acc9a3,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46b3e7b52f4cb6347810de8302acc9a3, type: 3}

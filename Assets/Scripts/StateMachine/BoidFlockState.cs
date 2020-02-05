@@ -17,6 +17,11 @@ public class BoidFlockState : IState
 
         owner.target = owner.flockTarget;
         Debug.Log("enter flock state");
+        if (boidActor.GetFoodType() == "Bird") {
+            Debug.Log("coyote doin stupid shit");
+
+            owner.switchState(new GrazeState(owner, boidActor));
+        }
     }
 
     public void Execute()

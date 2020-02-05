@@ -5,6 +5,7 @@ using UnityEngine;
 public class Coyote : MonoBehaviour, IEats, IBoidActor, IDamagable
 {
     Boid boid;
+    float AttackRange = 3f;
     float attackDistance = .7f;
     float damage = 100;
     float attackCooldown = .1f;
@@ -138,7 +139,7 @@ public class Coyote : MonoBehaviour, IEats, IBoidActor, IDamagable
         }
 
         attackPos.y = attackDistance * .5f;
-        Collider[] hitColliders = Physics.OverlapSphere(attackPos, attackDistance, layerMask);
+        Collider[] hitColliders = Physics.OverlapSphere(attackPos, AttackRange, layerMask);
         gizmoPos = attackPos;
         gizmoRad = attackDistance;
 
