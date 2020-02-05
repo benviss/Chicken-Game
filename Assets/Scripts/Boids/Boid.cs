@@ -43,6 +43,7 @@ public class Boid : MonoBehaviour, IActor
     {
         //stateMachine.ChangeState(new BoidFlockState(this));
         BoidManager.Instance.InitilizeBoids();
+        CoyoteBoidManager.Instance.InitilizeBoids();
     }
 
     void Awake()
@@ -167,5 +168,4 @@ public class Boid : MonoBehaviour, IActor
         Vector3 v = vector.normalized * settings.maxSpeed - velocity;
         return Vector3.ClampMagnitude(v, settings.maxSteerForce);
     }
-
 }

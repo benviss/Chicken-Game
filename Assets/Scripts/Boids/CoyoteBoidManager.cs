@@ -1,22 +1,18 @@
-﻿//COURTESY OF SEBASTIAN LAGUE A HERO AMONG MEN
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BoidManager : MonoBehaviour
+public class CoyoteBoidManager : MonoBehaviour
 {
-    private static BoidManager _instance;
-    public static BoidManager Instance { get { return _instance; } }
+    private static CoyoteBoidManager _instance;
+    public static CoyoteBoidManager Instance { get { return _instance; } }
 
     private void Awake()
     {
-        if (_instance != null && _instance != this)
-        {
+        if (_instance != null && _instance != this) {
             Destroy(this.gameObject);
-        }
-        else
-        {
+        } else {
             _instance = this;
         }
     }
@@ -38,6 +34,9 @@ public class BoidManager : MonoBehaviour
 
     public void InitilizeBoids()
     {
+        if (boidPrefab.tag == "Coyote") {
+
+        }
         var boidObjects = GameObject.FindGameObjectsWithTag(boidPrefab.tag);
         boids = boidObjects.Select(gObj => gObj.GetComponent<Boid>()).ToArray();
 
@@ -108,4 +107,5 @@ public class BoidManager : MonoBehaviour
             }
         }
     }
+
 }

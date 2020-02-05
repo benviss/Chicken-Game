@@ -5,10 +5,10 @@ using UnityEngine;
 public class GrazeState : IState
 {
     Boid owner;
-    Burb burb;
+    IBoidActor boidActor;
     Transform foodTarget;
 
-    public GrazeState(Boid owner, Burb burb) { this.owner = owner; this.burb = burb; }
+    public GrazeState(Boid owner, IBoidActor boidActor) { this.owner = owner; this.boidActor = boidActor; }
 
     public void Enter()
     {
@@ -16,15 +16,28 @@ public class GrazeState : IState
 
     public void Execute()
     {
-        //find food target if none already
-        if ((foodTarget == null) && (owner.targetPosition == null)) {
-            findFood();
+        if (foodTarget != null) {
+            Debug.DrawLine(owner.transform.position, foodTarget.position, Color.red);
+            
+        } else {
+            if (boidActor.GetFoodType() == "Bird") {
+                Debug.Log("Coyote has no food");
+            }
         }
 
-        if (Random.Range(1, 100) == 1)
-        {
-            findFood();
+        if (foodTarget != null && boidActor.GetFoodType() == "Bird") {
+            //go for food till dead
+        } else {
+            //find food target if none already
+            if ((foodTarget == null) && (owner.targetPosition == null)) {
+                findFood();
+            }
+
+            if (Random.Range(1, 100) == 1) {
+                findFood();
+            }
         }
+
         Vector3 targetPos;
         if (foodTarget != null)
         {
@@ -38,7 +51,7 @@ public class GrazeState : IState
 
         if (Vector3.Distance(owner.transform.position, targetPos) < 1 ) {
             //consume food target if next to it
-            burb.TryAttack();
+            boidActor.TryAttack();
         } else {
             Debug.Log("searching");
             owner.MoveBoid();
@@ -51,9 +64,12 @@ public class GrazeState : IState
 
     public void findFood()
     {
-        var foods = Physics.OverlapSphere(owner.transform.position, owner.grazeRange, LayerMask.GetMask("Plant"));
+        if (boidActor.GetFoodType() != "Plant") {
+
+        }
+        var foods = Physics.OverlapSphere(owner.transform.position, owner.grazeRange, LayerMask.GetMask(boidActor.GetFoodType()));
         if (foods.Length == 0) {
-            owner.switchState(new BoidFlockState(owner, burb));
+            owner.switchState(new BoidFlockState(owner, boidActor));
             Debug.Log("exit state");
             return;
         }

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Burb : MonoBehaviour, IEats, IBoidActor, IDamagable
+public class Coyote : MonoBehaviour, IEats, IBoidActor, IDamagable
 {
     Boid boid;
     float attackDistance = .7f;
-    float damage = 1;
+    float damage = 100;
     float attackCooldown = .1f;
     float lastAttack = 0;
-    bool isBusy;
+    bool isBusy = false;
     float energyMultiplier;
     Coroutine pootEggCoroutine;
     Coroutine attackCoroutine;
@@ -22,6 +22,8 @@ public class Burb : MonoBehaviour, IEats, IBoidActor, IDamagable
     // Start is called before the first frame update
     void Start()
     {
+        //CoyoteBoidManager.Instance.InitilizeBoids();
+
         boid = GetComponent<Boid>();
         energyMultiplier = 1;
 
@@ -29,7 +31,6 @@ public class Burb : MonoBehaviour, IEats, IBoidActor, IDamagable
             boid.switchState(new GrazeState(boid, this));
             attackDistance = 1;
             energyMultiplier = .5f;
-            StartCoroutine(GrowUpAnimation());
         }
 
         spOrient = GetComponent<SpriteOrienter>();
@@ -38,36 +39,23 @@ public class Burb : MonoBehaviour, IEats, IBoidActor, IDamagable
 
     void FixedUpdate()
     {
-        energy -= Time.fixedDeltaTime * energyMultiplier;
+        //energy -= Time.fixedDeltaTime * energyMultiplier;
 
-        if ((energy > 300) && (!isBusy))
-        {
-            pootEggCoroutine = StartCoroutine(PootEggAnimation());
-        }
+        //if (energy < 100) {
+        //    if (boid != null) {
+        //        if ((boid.State == "BoidFlockState") && (Random.Range(1, 100) == 1)) {
+        //            boid.switchState(new GrazeState(boid, this));
+        //        }
+        //    }
+        //}
 
-        if (energy < 100)
-        {
-            if (boid != null)
-            {
-                if ((boid.State == "BoidFlockState") && (Random.Range(1, 100) == 1))
-                {
-                    boid.switchState(new GrazeState(boid, this));
-                }
-            }
-        }
-
-        if (energy < 0)
-        {
-            if (boid != null)
-            {
-                if (!isBusy)
-                {
+        if (energy < 0) {
+            if (boid != null) {
+                if (!isBusy) {
                     boid.switchState(new IdleState(boid, this));
                     StartCoroutine(DieAnimation());
                 }
-            }
-            else
-            {
+            } else {
                 //gameover
                 energy += 5;
             }
@@ -83,10 +71,9 @@ public class Burb : MonoBehaviour, IEats, IBoidActor, IDamagable
         Vector3 trans = transform.localScale;
         Color deathColor = new Color(0f, 0f, 0f, 0f);
         Color defaultColor = spOrient.sprite.color;
-        while (percent < 1)
-        {
+        while (percent < 1) {
             percent = t / totalTime;
-            float fallover = Mathf.Lerp(0, 90, percent*10);
+            float fallover = Mathf.Lerp(0, 90, percent * 10);
             spOrient.spriteTransform.rotation = Quaternion.Euler(40, 0, fallover);
             float scale = Mathf.Lerp(1.2f, 5, percent);
             scale = Mathf.Clamp(scale, 0, 1);
@@ -99,80 +86,6 @@ public class Burb : MonoBehaviour, IEats, IBoidActor, IDamagable
         Kill();
     }
 
-    private IEnumerator PootEggAnimation()
-    {
-        isBusy = true;
-        bool hasPooted = false;
-        float totalTime = .5f;
-        float t = totalTime;
-        float percentMod = 2 / t;
-        float percent = 1;
-        Vector3 trans = spOrient.spriteTransform.localScale;
-
-        while (t > 0)
-        {
-            t -= Time.deltaTime;
-
-            percent = Mathf.Abs((t * percentMod) - 1);
-            float squish = Mathf.Lerp(.5f, 1f, percent);
-            float stretch = Mathf.Lerp(1.5f, 1f, percent);
-
-            spOrient.spriteTransform.localScale = new Vector3(squish * trans.x, stretch * trans.y, squish * trans.z);
-
-            if (!hasPooted && (t < totalTime * .5f))
-            {
-                hasPooted = true;
-                PootEgg();
-            }
-
-            yield return null;
-        }
-
-        spOrient.spriteTransform.localScale = trans;
-        energy -= 250;
-        isBusy = false;
-        lastAttack = Time.time;
-    }
-
-    private void PootEgg()
-    {
-        GameObject newBurb = Instantiate(GameManager.Instance.eggPrefab, transform.parent);
-        newBurb.name = "Egg";
-        newBurb.transform.position = transform.position;
-    }
-
-    public void StartEgg()
-    {
-        Rigidbody body = GetComponent<Rigidbody>();
-
-        transform.position += body.velocity.normalized;
-        body.velocity = Vector3.zero;
-
-        StartCoroutine(GrowUpAnimation());
-    }
-
-    private IEnumerator GrowUpAnimation()
-    {
-        isBusy = false;
-        float totalTime = 30f;
-        float t = 0;
-        float percent = 0;
-        Vector3 trans = transform.localScale;
-
-        while (percent <1)
-        {
-            percent = t / totalTime;
-            float scale = Mathf.Lerp(.3f, 1, percent);
-            transform.localScale = new Vector3(scale * trans.x, scale * trans.y, scale * trans.z);
-            t += Time.deltaTime;
-            yield return null;
-        }
-
-        energyMultiplier = 1;
-        transform.localScale = trans;
-        isBusy = false;
-
-    }
 
     public void TryAttack()
     {
@@ -191,8 +104,7 @@ public class Burb : MonoBehaviour, IEats, IBoidActor, IDamagable
         float percent = 1;
         Vector3 trans = spOrient.spriteTransform.localScale;
 
-        while (attackTime > 0)
-        {
+        while (attackTime > 0) {
             attackTime -= Time.deltaTime;
 
             percent = Mathf.Abs((attackTime * percentMod) - 1);
@@ -201,8 +113,7 @@ public class Burb : MonoBehaviour, IEats, IBoidActor, IDamagable
 
             spOrient.spriteTransform.localScale = new Vector3(squish * trans.x, stretch * trans.y, squish * trans.z);
 
-            if (!hasAttacked && (attackTime < attackTimeStart * .5f))
-            {
+            if (!hasAttacked && (attackTime < attackTimeStart * .5f)) {
                 hasAttacked = true;
                 Attack();
             }
@@ -262,12 +173,11 @@ public class Burb : MonoBehaviour, IEats, IBoidActor, IDamagable
 
     public string GetFoodType()
     {
-        return "Plant";
+        return "Bird";
     }
 
     public void TakeHit(float damage, IEats hitter)
     {
-        Debug.Log($"Bird hit energy now {energy}");
         energy -= damage;
     }
 }
