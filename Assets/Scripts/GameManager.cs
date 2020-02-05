@@ -21,4 +21,10 @@ public class GameManager : MonoBehaviour
 
     public Player player;
     public Camera mainCamera;
+
+    public Sprite leftChickenSprite;
+    public Sprite rightChickenSprite;
+
+    public GameObject burbPrefab;
+    public GameObject eggPrefab;
 }

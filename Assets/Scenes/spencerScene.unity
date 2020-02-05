@@ -448,6 +448,8 @@ MonoBehaviour:
   mainCamera: {fileID: 963194227}
   leftChickenSprite: {fileID: 21300000, guid: 2cd168addc0e0594f999b0850f434b70, type: 3}
   rightChickenSprite: {fileID: 21300000, guid: 9ff45a87e35aa8049a7802f28ae8421f, type: 3}
+  burbPrefab: {fileID: 1449540652033705520, guid: 35d4eb3225c9f1b40832671f3780ceb2,
+    type: 3}
 --- !u!4 &849148101
 Transform:
   m_ObjectHideFlags: 0
@@ -593,7 +595,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  burb: {fileID: 0}
 --- !u!114 &1237389825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,7 +617,7 @@ Rigidbody:
   m_GameObject: {fileID: 1237389823}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 5
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -648,7 +649,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d08c8b28ef9cfa244ba01811e80fee97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteTransform: {fileID: 0}
 --- !u!114 &1237389829
 MonoBehaviour:
   m_ObjectHideFlags: 0

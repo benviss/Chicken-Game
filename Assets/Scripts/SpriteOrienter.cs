@@ -7,6 +7,7 @@ public class SpriteOrienter : MonoBehaviour
     public Sprite leftSprite;
     public Sprite rightSprite;
     SpriteRenderer sprite;
+
     bool isFacingRight = true;
     internal Transform spriteTransform;
     public IActor owner;
@@ -18,11 +19,11 @@ public class SpriteOrienter : MonoBehaviour
         spriteTransform = sprite.gameObject.transform;
         sprite.sprite = rightSprite;
         owner = GetComponent<IActor>();
-        transform.rotation = Quaternion.Euler(40, 0, 0);
+        spriteTransform.rotation = Quaternion.Euler(40, 0, 0);
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (owner.getVelocityX() != 0) {
             if ((owner.getVelocityX() > 0) && !isFacingRight) {

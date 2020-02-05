@@ -38,10 +38,11 @@ public class Boid : MonoBehaviour, IActor
     public float grazeRange;
 
     StateMachine stateMachine = new StateMachine();
-
+    public string State;
     void Start()
     {
         //stateMachine.ChangeState(new BoidFlockState(this));
+        BoidManager.Instance.InitilizeBoids();
     }
 
     void Awake()
@@ -58,7 +59,7 @@ public class Boid : MonoBehaviour, IActor
 
         position = cachedTransform.position;
         forward = cachedTransform.forward;
-
+        grazeRange = 5;
         float startSpeed = (settings.minSpeed + settings.maxSpeed) / 2;
         velocity = transform.forward * startSpeed;
     }
@@ -73,18 +74,21 @@ public class Boid : MonoBehaviour, IActor
     public void UpdateBoid()
     {
         stateMachine.Update();
-
-        transform.rotation = Quaternion.Euler(40, 0, 0);
     }
 
     public float getVelocityX()
     {
+        if (velocity == null)
+        {
+            return 0;
+        }
         return velocity.x;
     }
 
     public void switchState(IState state)
     {
         stateMachine.ChangeState(state);
+        State = state.ToString();
     }
 
     public void MoveBoid()
@@ -129,7 +133,6 @@ public class Boid : MonoBehaviour, IActor
         velocity = dir * speed;
 
         cachedTransform.position += velocity * Time.deltaTime;
-        cachedTransform.forward = dir;
         position = cachedTransform.position;
         position.y = 0;
         forward = dir;
