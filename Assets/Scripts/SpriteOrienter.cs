@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class SpriteOrienter : MonoBehaviour
 {
-    Sprite leftSprite;
-    Sprite rightSprite;
-    internal SpriteRenderer sprite;
+    public Sprite leftSprite;
+    public Sprite rightSprite;
+    SpriteRenderer sprite;
+
     bool isFacingRight = true;
     internal Transform spriteTransform;
     public IActor owner;
@@ -14,8 +15,6 @@ public class SpriteOrienter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        leftSprite = GameManager.Instance.leftChickenSprite;
-        rightSprite = GameManager.Instance.rightChickenSprite;
         sprite = GetComponentInChildren<SpriteRenderer>();
         spriteTransform = sprite.gameObject.transform;
         sprite.sprite = rightSprite;
