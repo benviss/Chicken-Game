@@ -5,17 +5,23 @@ using UnityEngine;
 public class BoidFlockState : IState
 {
     Boid owner; 
-    Burb burb;
+    IBoidActor boidActor;
 
     float lastFoodCheck;
     float foodCheckCooldown = 5;
 
-    public BoidFlockState(Boid owner, Burb burb) { this.owner = owner; this.burb = burb; }
+    public BoidFlockState(Boid owner, IBoidActor boidActor) { this.owner = owner; this.boidActor = boidActor; }
 
     public void Enter()
     {
+
         owner.target = owner.flockTarget;
         Debug.Log("enter flock state");
+        if (boidActor.GetFoodType() == "Bird") {
+            Debug.Log("coyote doin stupid shit");
+
+            owner.switchState(new GrazeState(owner, boidActor));
+        }
     }
 
     public void Execute()
@@ -34,9 +40,9 @@ public class BoidFlockState : IState
     public void CheckForFood()
     {
         if (Vector3.Distance(owner.position, owner.target.position) < owner.followRange) {
-            var foods = Physics.OverlapSphere(owner.transform.position, owner.grazeRange, LayerMask.GetMask("Plant"));
+            var foods = Physics.OverlapSphere(owner.transform.position, owner.grazeRange, LayerMask.GetMask(boidActor.GetFoodType()));
             if (foods.Length > 0) {
-                owner.switchState(new GrazeState(owner, burb));
+                owner.switchState(new GrazeState(owner, boidActor));
             }
         }
         lastFoodCheck = Time.time;

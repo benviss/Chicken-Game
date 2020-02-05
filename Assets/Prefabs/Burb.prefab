@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5474771008187677784}
   m_Layer: 8
   m_Name: Burb
-  m_TagString: Untagged
+  m_TagString: Bird
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,6 +89,10 @@ MonoBehaviour:
   cachedTransform: {fileID: 0}
   target: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
+  flockTarget: {fileID: 0}
+  followRange: 0
+  grazeRange: 0
+  State: 
 --- !u!114 &1449540652033705487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,6 +105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d08c8b28ef9cfa244ba01811e80fee97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftSprite: {fileID: 21300000, guid: 2cd168addc0e0594f999b0850f434b70, type: 3}
+  rightSprite: {fileID: 21300000, guid: 9ff45a87e35aa8049a7802f28ae8421f, type: 3}
+  sprite: {fileID: 0}
 --- !u!114 &5474771008187677784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b98bd6cf0ffec04986924d9ba1e8564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grazeRange: 0
   energy: 0
 --- !u!1 &1449540652848367193
 GameObject:

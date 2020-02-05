@@ -5,9 +5,9 @@ using UnityEngine;
 public class IdleState : IState
 {
     Boid owner;
-    Burb burb;
+    IBoidActor boidActor;
 
-    public IdleState(Boid owner, Burb burb) { this.owner = owner; this.burb = burb; }
+    public IdleState(Boid owner, IBoidActor boidActor) { this.owner = owner; this.boidActor = boidActor; }
 
     public void Enter()
     {
