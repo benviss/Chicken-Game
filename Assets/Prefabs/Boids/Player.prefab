@@ -90,9 +90,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3172224982452315514}
   - component: {fileID: 3172224982452315513}
+  - component: {fileID: 2184650800956271010}
   - component: {fileID: 3172224982452315512}
   - component: {fileID: 3172224982452315399}
-  - component: {fileID: 1889222386407257447}
   - component: {fileID: 3172224982452315398}
   - component: {fileID: 3172224982452315515}
   m_Layer: 11
@@ -133,6 +133,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 36
   m_CollisionDetection: 0
+--- !u!114 &2184650800956271010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3172224982452315397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b98bd6cf0ffec04986924d9ba1e8564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grazeRange: 0
+  energy: 0
 --- !u!114 &3172224982452315512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,34 +173,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
---- !u!114 &1889222386407257447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3172224982452315397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bca339be68459804a8c8859b4c6ebfc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 0}
-  position: {x: 0, y: 0, z: 0}
-  forward: {x: 0, y: 0, z: 0}
-  velocity: {x: 0, y: 0, z: 0}
-  avgFlockHeading: {x: 0, y: 0, z: 0}
-  avgAvoidanceHeading: {x: 0, y: 0, z: 0}
-  centreOfFlockmates: {x: 0, y: 0, z: 0}
-  numPerceivedFlockmates: 0
-  material: {fileID: 0}
-  cachedTransform: {fileID: 0}
-  target: {fileID: 0}
-  targetPosition: {x: 0, y: 0, z: 0}
-  flockTarget: {fileID: 0}
-  followRange: 0
-  grazeRange: 0
-  energy: 0
 --- !u!135 &3172224982452315398
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -212,5 +198,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d08c8b28ef9cfa244ba01811e80fee97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftSprite: {fileID: 0}
-  rightSprite: {fileID: 0}

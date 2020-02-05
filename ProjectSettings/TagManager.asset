@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Coyote
   - Chicken
-  - Bird
   layers:
   - Default
   - TransparentFX
@@ -20,7 +19,7 @@ TagManager:
   - Plant
   - Ground
   - Player
-  - Coyote
+  - 
   - 
   - 
   - 

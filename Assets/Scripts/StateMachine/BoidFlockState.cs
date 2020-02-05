@@ -1,17 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Boid;
 
 public class BoidFlockState : IState
 {
-    Boid owner;
-    FoodTypes food;
+    Boid owner; 
+    Burb burb;
 
     float lastFoodCheck;
     float foodCheckCooldown = 5;
 
-    public BoidFlockState(Boid owner, FoodTypes food) { this.owner = owner; this.food = food; }
+    public BoidFlockState(Boid owner, Burb burb) { this.owner = owner; this.burb = burb; }
 
     public void Enter()
     {
@@ -35,9 +34,9 @@ public class BoidFlockState : IState
     public void CheckForFood()
     {
         if (Vector3.Distance(owner.position, owner.target.position) < owner.followRange) {
-            var foods = Physics.OverlapSphere(owner.transform.position, owner.grazeRange, LayerMask.GetMask(BoidUtils.GetFoodTypeString(food)));
+            var foods = Physics.OverlapSphere(owner.transform.position, owner.grazeRange, LayerMask.GetMask("Plant"));
             if (foods.Length > 0) {
-                owner.switchState(new GrazeState(owner, food));
+                owner.switchState(new GrazeState(owner, burb));
             }
         }
         lastFoodCheck = Time.time;
